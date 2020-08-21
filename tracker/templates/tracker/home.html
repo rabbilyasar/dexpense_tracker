@@ -1,7 +1,136 @@
-<h1>this is home</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+{% extends 'tracker/main.html' %}
+{% load static %}
+{% load group_tags %}
+{% load humanize %}
+{% block content %}
 
-    <input type="submit" value="Submit">
-</form>
+<div class="row">
+    <div class="col-md">
+        <div class="card card-header">
+            <h5 class="d-flex justify-content-center h-100">Expense List</h5>
+        </div>
+        <div class="card card-body table-responsive">
+            <div class="row">
+                <div class="col">
+                    <div class="card card-body">
+                        <form method="get">
+                            <div class="row">
+                                <div class="col-md-5">{{ myFilter.form.submitted_by.label }}:
+                                    {{ myFilter.form.submitted_by }}</div>
+                                <div class="col-md-5">{{ myFilter.form.category.label }}: {{ myFilter.form.category }}
+                                </div>
+                                <div class="col-md-2">{{ myFilter.form.status.label }}: {{ myFilter.form.status }}</div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-5">Start Date:
+                                    {{ myFilter.form.start_date }}</div>
+                                <div class="col-md-6">End Date: {{ myFilter.form.end_date }}
+                                </div>
+                                <div class="col-md-1"><button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Transaction Date</th>
+                        <th>Image</th>
+                        <th>Submitted By</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Date Created</th>
+
+                        {% if request.user|has_group:"employee" or request.user|has_group:"manager" %}
+                        <th>Option</th>
+                        {% endif %}
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in page_obj %}
+
+                    <tr>
+                        <td>{{ expense.title }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>${{ expense.amount }}</td>
+                        <td>{{ expense.transaction_date }}</td>
+                        <td style="width:0"><img src="{{ expense.imageURL }}" alt="No Image" width="50%"></td>
+                        <td>{{ expense.submitted_by }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.status }}</td>
+                        <td>{{ expense.date_created|naturaltime }}</td>
+
+                        <td>
+                            <div class="row">
+                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' %}
+                                <div class="col-md-4"><a class=""
+                                        href="{% url 'tracker:update_expense' expense.id %}"><i
+                                            class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip"
+                                            data-placement="top" title="Update"></i></a></div>
+                                <div class="col-md-4"><a class=""
+                                        href="{% url 'tracker:delete_expense' expense.id %}"><i
+                                            class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="tooltip"
+                                            data-placement="top" title="Delete" style="color: red"></i>
+                                    </a></div>
+                                {% endif %}
+                                <div class="col-md-4">
+                                    <a href="{% url 'tracker:change_status' expense.id %}" class=""><i
+                                            class="fa fa-wrench fa-lg" aria-hidden="true" data-toggle="tooltip"
+                                            data-placement="top" title="Change status"></i></a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        {% if request.user|has_group:"manager" %}
+
+
+                        {% endif %}
+
+                    </tr>
+                    {% empty %}
+                    <td colspan="100">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <p class="card-text">No data available add some.</p>
+                                <a href="{% url 'tracker:create_expense' %}" class="btn btn-success">Create Expense</a>
+                            </div>
+                        </div>
+                    </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="pagination">
+        </div>
+    </div>
+</div>
+{% endblock content %}

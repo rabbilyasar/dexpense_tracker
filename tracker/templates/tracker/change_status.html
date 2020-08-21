@@ -1,0 +1,23 @@
+{% extends 'tracker/main.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <form action="{% url 'tracker:change_status' expense.id %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Select status</label>
+                    <select class="form-control" name="status">
+                        <option value="approved" {% if expense.status == 'approved' %} 'selected' {% endif %}>Approved
+                        </option>
+                        <option value="rejected" {% if expense.status == 'approved' %} 'selected' {% endif %}>Reject
+                        </option>
+                    </select>
+                </div>
+                <input type="submit" value="Confirm" class="btn btn-sm btn-danger">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

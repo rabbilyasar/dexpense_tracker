@@ -38,6 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # django custom package
+    'django.contrib.humanize',
+
+    # 3rd party package
+    'crispy_forms',
+    'django_filters',
+
     # created apps
     'tracker'
 ]
