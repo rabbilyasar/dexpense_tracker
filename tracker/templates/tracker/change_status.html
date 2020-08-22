@@ -9,9 +9,9 @@
                 <div class="form-group">
                     <label>Select status</label>
                     <select class="form-control" name="status">
-                        <option value="approved" {% if expense.status == 'approved' %} 'selected' {% endif %}>Approved
+                        <option value="approved" {% if expense.status == 'approved' %} 'selected' {% endif %}>Approve
                         </option>
-                        <option value="rejected" {% if expense.status == 'approved' %} 'selected' {% endif %}>Reject
+                        <option value="rejected" {% if expense.status == 'rejected' %} 'selected' {% endif %}>Reject
                         </option>
                     </select>
                 </div>

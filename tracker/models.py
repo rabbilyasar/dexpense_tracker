@@ -8,7 +8,6 @@ from django.core.exceptions import ValidationError
 
 def validate_date(date):
     current_date = datetime.today().date()
-    print("date:", date, 'datetime:', datetime.today().date())
     if date < current_date-timedelta(days=30):
         raise ValidationError("Date cannot be less than 30 days from now")
     elif date > current_date:

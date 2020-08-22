@@ -8,7 +8,7 @@
             <h3 class="d-flex justify-content-center h-100">Please fill in the form</h3>
         </div>
         <div class="card card-body">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 {% comment %} {{ form|crispy }} {% endcomment %}

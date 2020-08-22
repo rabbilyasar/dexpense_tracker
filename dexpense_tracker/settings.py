@@ -40,13 +40,15 @@ INSTALLED_APPS = [
 
     # django custom package
     'django.contrib.humanize',
+    'rest_framework',
 
     # 3rd party package
     'crispy_forms',
     'django_filters',
 
     # created apps
-    'tracker'
+    'tracker',
+    'api'
 ]
 
 MIDDLEWARE = [

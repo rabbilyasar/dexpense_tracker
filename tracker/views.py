@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.db.models import Q
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -55,15 +56,25 @@ def logoutPage(request):
 @login_required(login_url='tracker:login')
 @restrict_auditor
 def home(request):
-    expenses = Expense.objects.order_by('-date_created')
+    # all expenses
+    expenses = Expense.objects.filter(
+        status="pending").order_by('-date_created')
     myFilter = ExpenseFilter(request.GET, queryset=expenses)
     expenses = myFilter.qs
-
+    # all expenses pagination
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    context = {'page_obj': page_obj, 'myFilter': myFilter}
+    # rejected expenses
+    rejected_expenses = Expense.objects.filter(status='rejected')
+    # all expenses pagination
+    paginator = Paginator(rejected_expenses, 5)
+    page_number = request.GET.get('page')
+    rejected_expenses_page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj': page_obj, 'myFilter': myFilter,
+               'rejected_expenses_page_obj': rejected_expenses_page_obj}
     return render(request, 'tracker/home.html', context)
 
 
@@ -86,9 +97,10 @@ def approvedExpenses(request):
 def createExpense(request):
     form = ExpenseForm()
     if request.method == 'POST':
-        form = ExpenseForm(request.POST)
+        form = ExpenseForm(request.POST, request.FILES)
         if form.is_valid():
             form_data = form.save(commit=False)
+            print("image:", form_data.image)
             form_data.submitted_by = request.user
             form_data.save()
             messages.success(request, 'Data created successfully')
@@ -104,9 +116,10 @@ def updateExpense(request, pk):
     form = ExpenseForm(instance=expense)
 
     if request.method == 'POST':
-        form = ExpenseForm(request.POST, instance=expense)
+        form = ExpenseForm(request.POST, request.FILES, instance=expense)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Data updated successfully')
             return redirect('/')
     context = {'form': form}
     return render(request, 'tracker/expense_form.html', context)
@@ -119,6 +132,7 @@ def deleteExpense(request, pk):
 
     if request.method == "POST":
         expense.delete()
+        messages.success(request, 'Data deleted successfully')
         return redirect('/')
 
     context = {'item': expense}
@@ -133,6 +147,7 @@ def changeStatus(request, pk):
         status = request.POST.get("status")
         Expense.objects.filter(id=pk).update(status=status)
 
+        messages.success(request, 'Status changed successfully')
         return redirect('tracker:home')
     context = {'expense': expense}
     return render(request, 'tracker/change_status.html', context)

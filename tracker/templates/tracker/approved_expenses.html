@@ -59,9 +59,9 @@
                     <tr>
                         <td>{{ expense.title }}</td>
                         <td>{{ expense.description }}</td>
-                        <td>${{ expense.amount }}</td>
+                        <td>${{ expense.amount|intcomma }}</td>
                         <td>{{ expense.transaction_date }}</td>
-                        <td style="width:0"><img src="{{ expense.imageURL }}" alt="No Image" width="50%"></td>
+                        <td style="width:0"><img src="{{ expense.imageURL }}" alt="No Image" width="70%"></td>
                         <td>{{ expense.submitted_by }}</td>
                         <td>{{ expense.category }}</td>
                         <td>{{ expense.status }}</td>
