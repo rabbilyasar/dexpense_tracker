@@ -32,9 +32,8 @@ Create expenses page: Expenses can be created only by the admins and by the empl
 1> Make custom user model to use email as the authentication mode instead of username. <br/>
 2> Make Groups and assign permissions automatically to make the app more dynamic. <br/>
 3> Use Signals to assign employees to groups. <br/>
-4> Make a page to view individual submitted expenses.
-5> Make a feature for employees to pick their designated manager from the department
+4> Make a page to view individual submitted expenses.<br/>
+5> Make a feature for employees to pick their designated manager from the department<br/>
 
 <strong>API</strong>  <br/>
-1> Use Django Rest Framework authentication to handle the endpoints to see who is logged in and show results based on the roles.
-2> 
+1> Use Django Rest Framework authentication to handle the endpoints to see who is logged in and show results based on the roles. <br/>
