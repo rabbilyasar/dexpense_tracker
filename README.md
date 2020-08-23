@@ -13,4 +13,6 @@ step 5. Create categories ["travel", "misc", "food", "accommodation", "training"
 3. Auditor ["can view approved expenses filtered by month"] <br/>
 
 ## Tracker app functionality
-Home page: It can be accesible by the employee and manager. It shows all the pending expenses and rejected expenses. Status can be changed which can only a manager do.
+Home page: It can be accesible by the employee and manager. It shows all the pending expenses and rejected expenses. Status can be changed which can only be done by a manager.<br/>
+Approved expenses page: It can be viewed by everyone it shows the expenses which has been approved.
+Create expenses page: Expenses can be created only by the admins and by the employees. Status is automatically set to pending and submitted by is set to backend automatically.
