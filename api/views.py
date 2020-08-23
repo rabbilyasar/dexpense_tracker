@@ -31,8 +31,8 @@ def expenseList(request):
 
 @api_view(['GET'])
 def expenseDetail(request, pk):
-    expenses = Expense.objects.get(id=pk)
-    serializer = ExpenseSerializer(expenses, many=False)
+    expense = Expense.objects.get(id=pk)
+    serializer = ExpenseSerializer(expense, many=False)
     return Response(serializer.data)
 
 
@@ -44,3 +44,22 @@ def expenseCreate(request):
         serializer.save()
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def expenseUpdate(request, pk):
+    expense = Expense.objects.get(id=pk)
+    serializer = ExpenseSerializer(instance=expense, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def expenseDelete(request, pk):
+    expense = Expense.objects.get(id=pk)
+    expense.delete()
+
+    return Response('Item successfully deleted')

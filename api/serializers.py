@@ -3,6 +3,6 @@ from tracker.models import Expense
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    class Meta:
+    class Meta: 
         model = Expense
         fields = '__all__'
