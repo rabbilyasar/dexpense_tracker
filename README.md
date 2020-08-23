@@ -1,4 +1,5 @@
 # dexpense_tracker
+A dynamic robust expense management system made with django with api endpoints.
 
 ## Initial Setup
 step 1. Install packages from requirements.txt <br/>
