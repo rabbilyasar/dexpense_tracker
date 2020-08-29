@@ -2,16 +2,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 
-def unauthenticated_user(view_func):
-    def wrapper_func(request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('tracker:home')
-        else:
-            return view_func(request, *args, **kwargs)
-
-    return wrapper_func
-
-
 def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
@@ -28,9 +18,12 @@ def allowed_users(allowed_roles=[]):
 
 def restrict_auditor(view_func):
     def wrapper_func(request, *args, **kwargs):
-        if request.user.groups.all()[0].name == 'auditor':
+        if request.user.groups.filter(name="auditor"):
             return redirect('tracker:approved_expense')
         else:
             return view_func(request, *args, **kwargs)
+        # if request.user.groups.filter(name="auditor").exists():
+        # else:
+        #     return HttpResponse("Set groups first")
 
     return wrapper_func

@@ -1,4 +1,3 @@
-from tracker.views import registerPage
 from django.urls import path
 from . import views
 
@@ -9,9 +8,6 @@ from django.conf import settings
 app_name = 'tracker'
 urlpatterns = [
     path('', views.home, name='home'),
-    path('register/', views.registerPage, name="register"),
-    path('login/', views.loginPage, name="login"),
-    path('logout/', views.logoutPage, name="logout"),
     path('approved_expenses', views.approvedExpenses, name="approved_expense"),
     path('create_expense', views.createExpense, name='create_expense'),
     path('update_expense/<str:pk>', views.updateExpense, name='update_expense'),

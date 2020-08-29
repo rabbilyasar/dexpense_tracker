@@ -238,3 +238,14 @@
     </div>
 </div>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+    const start_date = document.getElementById("id_start_date")
+    const end_date = document.getElementById("id_end_date")
+    start_date.setAttribute("type", "date")
+    end_date.setAttribute("type", "date")
+
+</script>
+{% endblock script %}

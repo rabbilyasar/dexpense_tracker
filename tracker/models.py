@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from account.models import Account
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
 
@@ -27,7 +28,8 @@ class Expense(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected')
     ]
-    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    submitted_by = models.ForeignKey(
+        Account, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=64)
     description = models.TextField(max_length=255)
     amount = models.IntegerField(default=1,
