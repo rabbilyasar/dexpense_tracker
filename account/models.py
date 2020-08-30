@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 from django.core.validators import RegexValidator
 
@@ -22,9 +22,17 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_staffuser(self, email, username, password=None):
+        user = self.create_user(
+            email,
+            username,
+            is_staff=True
+        )
+        return user
+
     def create_superuser(self, email, username, password=None):
         user = self.create_user(
-            username, email, password=password
+            email, username, password=password
         )
         user.is_admin = True
         user.is_staff = True
@@ -34,7 +42,7 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
-class Account(AbstractBaseUser):
+class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name="email address", max_length=60, unique=True)
     # required
@@ -63,5 +71,12 @@ class Account(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
+    def has_module_perms(self, app_label: str) -> bool:
+        return True
+
     def has_module_perms(self, app_label):
         return True
+
+    # @property
+    # def is_staff(self):
+    #     return self.is_admin

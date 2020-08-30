@@ -18,7 +18,7 @@ def allowed_users(allowed_roles=[]):
 
 def restrict_auditor(view_func):
     def wrapper_func(request, *args, **kwargs):
-        if request.user.groups.filter(name="auditor"):
+        if not request.user.has_perm('add_expense'):
             return redirect('tracker:approved_expense')
         else:
             return view_func(request, *args, **kwargs)

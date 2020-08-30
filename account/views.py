@@ -1,36 +1,38 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from .decorators import unauthenticated_user
 from django.contrib import messages
 from django.shortcuts import redirect
+
+from .decorators import unauthenticated_user
+from .forms import LoginForm, RegisterForm
 
 
 @unauthenticated_user
 def registerPage(request):
-    form = UserCreationForm()
+    form = RegisterForm()
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, 'Account was created for %s.' % username)
-            return redirect('tracker:login')
+            return redirect('account:login')
 
     context = {'form': form}
-    return render(request, 'tracker/register.html', context)
+    return render(request, 'account/register.html', context)
 
 
 @unauthenticated_user
 def loginPage(request):
-    context = {}
+    form = LoginForm()
+    context = {'form': form}
 
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
             return redirect('tracker:home')
@@ -38,9 +40,9 @@ def loginPage(request):
             messages.info(request, 'Username or password incorrect')
 
     context = {}
-    return render(request, 'tracker/login.html', context)
+    return render(request, 'account/login.html', context)
 
 
 def logoutPage(request):
     logout(request)
-    return redirect('tracker:login')
+    return redirect('account:login')

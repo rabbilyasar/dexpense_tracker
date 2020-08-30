@@ -58,7 +58,7 @@
                         <th>Status</th>
                         <th>Date Created</th>
 
-                        {% if request.user|has_group:"employee" or request.user|has_group:"manager" %}
+                        {% if perms.tracker.edit_expense %}
                         <th>Option</th>
                         {% endif %}
 
@@ -80,7 +80,7 @@
 
                         <td>
                             <div class="row">
-                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' %}
+                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' and perms.tracker.edit_expense%}
                                 <div class="col-md-4"><a class=""
                                         href="{% url 'tracker:update_expense' expense.id %}"><i
                                             class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip"
@@ -98,14 +98,6 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
-
-                        </td>
-                        {% if request.user|has_group:"manager" %}
-
-
-                        {% endif %}
-
                     </tr>
                     {% empty %}
                     <td colspan="100">
@@ -181,7 +173,7 @@
 
                         <td>
                             <div class="row">
-                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' %}
+                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' and perms.tracker.edit_expense %}
                                 <div class="col-md-4"><a class=""
                                         href="{% url 'tracker:update_expense' expense.id %}"><i
                                             class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip"

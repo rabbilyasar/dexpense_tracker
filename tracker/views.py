@@ -11,7 +11,7 @@ from .filters import ExpenseFilter
 from .decorators import allowed_users, restrict_auditor
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 @restrict_auditor
 def home(request):
     # all expenses
@@ -36,7 +36,7 @@ def home(request):
     return render(request, 'tracker/home.html', context)
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 def approvedExpenses(request):
     approved_expenses = Expense.objects.filter(status='approved')
     myFilter = ExpenseFilter(request.GET, queryset=approved_expenses)
@@ -50,7 +50,7 @@ def approvedExpenses(request):
     return render(request, 'tracker/approved_expenses.html', context)
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 @allowed_users(['manager', 'employee'])
 def createExpense(request):
     form = ExpenseForm()
@@ -67,7 +67,7 @@ def createExpense(request):
     return render(request, 'tracker/expense_form.html', context)
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 @allowed_users(['manager', 'employee'])
 def updateExpense(request, pk):
     expense = Expense.objects.get(id=pk)
@@ -83,7 +83,7 @@ def updateExpense(request, pk):
     return render(request, 'tracker/expense_form.html', context)
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 @allowed_users(['manager', 'employee'])
 def deleteExpense(request, pk):
     expense = Expense.objects.get(id=pk)
@@ -97,7 +97,7 @@ def deleteExpense(request, pk):
     return render(request, 'tracker/delete.html', context)
 
 
-@login_required(login_url='tracker:login')
+@login_required(login_url='account:login')
 @allowed_users(['manager'])
 def changeStatus(request, pk):
     expense = Expense.objects.get(id=pk)

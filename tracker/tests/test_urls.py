@@ -1,6 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from tracker.views import *
+from account.views import *
 
 
 class TestUrls(SimpleTestCase):
@@ -10,15 +11,15 @@ class TestUrls(SimpleTestCase):
         self.assertEquals(resolve(url).func, home)
 
     def test_login_url_is_resolved(self):
-        url = reverse('tracker:login')
+        url = reverse('account:login')
         self.assertEquals(resolve(url).func, loginPage)
 
     def test_register_url_is_resolved(self):
-        url = reverse('tracker:register')
+        url = reverse('account:register')
         self.assertEquals(resolve(url).func, registerPage)
 
     def test_logout_url_is_resolved(self):
-        url = reverse('tracker:logout')
+        url = reverse('account:logout')
         self.assertEquals(resolve(url).func, logoutPage)
 
     def test_approved_expense_url_is_resolved(self):
