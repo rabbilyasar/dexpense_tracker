@@ -99,7 +99,7 @@
                                 <div class="col-md-4">
                                     <a href="{% url 'tracker:change_status' expense.id %}" class=""><i
                                             class="fa fa-wrench fa-lg" aria-hidden="true" data-toggle="tooltip"
-                                            data-placement="top" title="Change status"></i></a>
+                                            data-placement="top" title="Change status" style="color: green"></i></a>
                                 </div>
                                 {% endif %}
                             </div>
@@ -134,11 +134,7 @@
                 {% endif %}
             </span>
         </div>
-
-        <div class="pagination">
-        </div>
     </div>
-    {{ perms.tracker }}
 </div>
 <br>
 
@@ -190,7 +186,7 @@
                                 <div class="col-md-4">
                                     <a href="{% url 'tracker:change_status' expense.id %}" class=""><i
                                             class="fa fa-wrench fa-lg" aria-hidden="true" data-toggle="tooltip"
-                                            data-placement="top" title="Change status"></i></a>
+                                            data-placement="top" title="Change status" style="color: green"></i></a>
                                 </div>
                                 {% endif %}
                             </div>
