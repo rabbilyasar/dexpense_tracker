@@ -16,14 +16,12 @@ def allowed_users(allowed_roles=[]):
     return decorator
 
 
-def restrict_auditor(view_func):
-    def wrapper_func(request, *args, **kwargs):
-        if not request.user.has_perm('add_expense'):
-            return redirect('tracker:approved_expense')
-        else:
-            return view_func(request, *args, **kwargs)
-        # if request.user.groups.filter(name="auditor").exists():
-        # else:
-        #     return HttpResponse("Set groups first")
-
-    return wrapper_func
+# def restrict_user(perms=[]):
+#     def decorator(view_func):
+#         def wrapper_func(request, *args, **kwargs):
+#             if request.user.has_perms('can_view_approve_expense'):
+#                 return redirect('tracker:approved_expense')
+#             else:
+#                 return view_func(request, *args, **kwargs)
+#         return wrapper_func
+#     return decorator

@@ -4,15 +4,15 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from .forms import *
 from .filters import ExpenseFilter
-from .decorators import allowed_users, restrict_auditor
+from .decorators import allowed_users
 
 
 @login_required(login_url='account:login')
-@restrict_auditor
+@permission_required('tracker.view_expense', login_url='tracker:approved_expense')
 def home(request):
     # all expenses
     expenses = Expense.objects.filter(
@@ -51,7 +51,7 @@ def approvedExpenses(request):
 
 
 @login_required(login_url='account:login')
-@allowed_users(['manager', 'employee'])
+@permission_required('tracker.add_expense', login_url='tracker:home')
 def createExpense(request):
     form = ExpenseForm()
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def createExpense(request):
 
 
 @login_required(login_url='account:login')
-@allowed_users(['manager', 'employee'])
+@permission_required('tracker.change_expense', login_url='tracker:home')
 def updateExpense(request, pk):
     expense = Expense.objects.get(id=pk)
     form = ExpenseForm(instance=expense)
@@ -84,7 +84,7 @@ def updateExpense(request, pk):
 
 
 @login_required(login_url='account:login')
-@allowed_users(['manager', 'employee'])
+@permission_required('tracker.delete_expense', login_url='tracker:home')
 def deleteExpense(request, pk):
     expense = Expense.objects.get(id=pk)
 
@@ -98,7 +98,7 @@ def deleteExpense(request, pk):
 
 
 @login_required(login_url='account:login')
-@allowed_users(['manager'])
+@permission_required('tracker.change_expense_status', login_url='tracker:home')
 def changeStatus(request, pk):
     expense = Expense.objects.get(id=pk)
     if request.method == 'POST':

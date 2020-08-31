@@ -58,7 +58,7 @@
                         <th>Status</th>
                         <th>Date Created</th>
 
-                        {% if perms.tracker.edit_expense %}
+                        {% if perms.tracker.change_expense %}
                         <th>Option</th>
                         {% endif %}
 
@@ -73,29 +73,35 @@
                         <td>${{ expense.amount|intcomma }}</td>
                         <td>{{ expense.transaction_date }}</td>
                         <td style="width:0"><img src="{{ expense.imageURL }}" alt="No Image" width="70%"></td>
-                        <td>{{ expense.submitted_by }}</td>
+                        <td>{{ expense.submitted_by.username|capfirst }}</td>
                         <td>{{ expense.category }}</td>
                         <td>{{ expense.status }}</td>
                         <td>{{ expense.date_created|naturaltime }}</td>
 
                         <td>
                             <div class="row">
-                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' and perms.tracker.edit_expense%}
+                                {% if request.user.id == expense.submitted_by.id or request.user.is_admin%}
+                                {% if perms.tracker.change_expense %}
                                 <div class="col-md-4"><a class=""
                                         href="{% url 'tracker:update_expense' expense.id %}"><i
                                             class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip"
                                             data-placement="top" title="Update"></i></a></div>
+                                {% endif %}
+                                {% if perms.tracker.delete_expense %}
                                 <div class="col-md-4"><a class=""
                                         href="{% url 'tracker:delete_expense' expense.id %}"><i
                                             class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="tooltip"
                                             data-placement="top" title="Delete" style="color: red"></i>
                                     </a></div>
                                 {% endif %}
+                                {% endif %}
+                                {% if perms.tracker.change_expense_status %}
                                 <div class="col-md-4">
                                     <a href="{% url 'tracker:change_status' expense.id %}" class=""><i
                                             class="fa fa-wrench fa-lg" aria-hidden="true" data-toggle="tooltip"
                                             data-placement="top" title="Change status"></i></a>
                                 </div>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
@@ -132,6 +138,7 @@
         <div class="pagination">
         </div>
     </div>
+    {{ perms.tracker }}
 </div>
 <br>
 
@@ -159,7 +166,6 @@
                 </thead>
                 <tbody>
                     {% for expense in rejected_expenses_page_obj %}
-
                     <tr>
                         <td>{{ expense.title }}</td>
                         <td>{{ expense.description }}</td>
@@ -170,25 +176,23 @@
                         <td>{{ expense.category }}</td>
                         <td>{{ expense.status }}</td>
                         <td>{{ expense.date_created|naturaltime }}</td>
-
                         <td>
                             <div class="row">
-                                {% if request.user.id == expense.submitted_by.id and expense.status == 'pending' and perms.tracker.edit_expense %}
+                                {% if request.user.id == expense.submitted_by.id or request.user.is_admin%}
+                                {% if perms.tracker.change_expense %}
                                 <div class="col-md-4"><a class=""
                                         href="{% url 'tracker:update_expense' expense.id %}"><i
                                             class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip"
                                             data-placement="top" title="Update"></i></a></div>
-                                <div class="col-md-4"><a class=""
-                                        href="{% url 'tracker:delete_expense' expense.id %}"><i
-                                            class="fa fa-trash fa-lg" aria-hidden="true" data-toggle="tooltip"
-                                            data-placement="top" title="Delete" style="color: red"></i>
-                                    </a></div>
                                 {% endif %}
+                                {% endif %}
+                                {% if perms.tracker.change_expense_status %}
                                 <div class="col-md-4">
                                     <a href="{% url 'tracker:change_status' expense.id %}" class=""><i
                                             class="fa fa-wrench fa-lg" aria-hidden="true" data-toggle="tooltip"
                                             data-placement="top" title="Change status"></i></a>
                                 </div>
+                                {% endif %}
                             </div>
                         </td>
                         <td>

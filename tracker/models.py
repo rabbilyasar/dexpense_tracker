@@ -47,12 +47,11 @@ class Expense(models.Model):
     class Meta:
         permissions = [
             ("change_expense_status", "Can change the status of expense"),
+            ("can_view_approve_expense", "Can view approved expenses"),
         ]
-
 
     def __str__(self) -> str:
         return self.title
-    
 
     @property
     def imageURL(self):

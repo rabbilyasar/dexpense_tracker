@@ -68,14 +68,14 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
+    # def has_perm(self, perm, obj=None):
+    #     return 'sdjksd'
 
-    def has_module_perms(self, app_label: str) -> bool:
-        return True
+    # def has_module_perms(self, app_label: str) -> bool:
+    #     return True
 
-    def has_module_perms(self, app_label):
-        return True
+    # def has_module_perms(self, app_label):
+    #     return True
 
     # @property
     # def is_staff(self):

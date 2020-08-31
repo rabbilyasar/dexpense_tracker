@@ -13,26 +13,20 @@
             <div class="row">
                 <div class="col">
                     <div class="card card-body">
-                        <form method="get">
-                            <div class="row">
-                                <div class="col-md-5">{{ myFilter.form.submitted_by.label }}:
-                                    {{ myFilter.form.submitted_by }}</div>
-                                <div class="col-md-5">{{ myFilter.form.category.label }}:
-                                    {{ myFilter.form.category }}
+                        <form method="get" class="form-inline">
+                            <div class="input-group row">
+                                <label for="" class="col-2 col-form-label">From</label>
+                                <div class="col-10">
+                                    {{ myFilter.form.start_date }}
                                 </div>
-                                <div class="col-md-2">{{ myFilter.form.status.label }}:
-                                    {{ myFilter.form.status }}</div>
-
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-5">Start Date:
-                                    {{ myFilter.form.start_date }}</div>
-                                <div class="col-md-6">End Date: {{ myFilter.form.end_date }}
+                            <div class="input-group row">
+                                <label for="" class="col-2 col-form-label">To</label>
+                                <div class="col-10">
+                                    {{ myFilter.form.end_date }}
                                 </div>
-                                <div class="col-md-1"><button class="btn btn-primary" type="submit">Search</button>
-                                </div>
-
+                            </div>
+                            <div class="col-md-1"><button class="btn btn-primary" type="submit">Search</button>
                             </div>
                         </form>
                     </div>
@@ -106,7 +100,9 @@
     const start_date = document.getElementById("id_start_date")
     const end_date = document.getElementById("id_end_date")
     start_date.setAttribute("type", "date")
-    end_date.setAttribute("type", "date")
+    end_date.setAttribute("type", "date", )
+    start_date.className += "form-control"
+    end_date.className += "form-control"
 
 </script>
 {% endblock script %}
