@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     # 3rd party package
     'crispy_forms',
     'django_filters',
-    # 'clearcache',
+    'clearcache',
 
     # created apps
     'tracker',
