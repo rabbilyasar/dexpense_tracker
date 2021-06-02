@@ -1,0 +1,1 @@
+web: gunicorn dexpense_tracker.wsgi
