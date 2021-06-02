@@ -14,8 +14,7 @@ import os
 # from sentry_sdk.integrations.django import DjangoIntegration
 import django_heroku
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+
 
 
 # sentry_sdk.init(
@@ -65,7 +64,7 @@ INSTALLED_APPS = [
     # 3rd party package
     'crispy_forms',
     'django_filters',
-    'clearcache',
+    # 'clearcache',
 
     # created apps
     'tracker',
@@ -172,3 +171,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Activate Django-Heroku.
+django_heroku.settings(locals())
